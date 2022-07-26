@@ -1,0 +1,2 @@
+s3fs
+prefect>=2.0b12
