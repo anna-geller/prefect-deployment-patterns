@@ -3,6 +3,7 @@ from prefect import get_run_logger
 from prefect_dataops.postgres_utils import get_db_connection_string
 from flows.healthcheck import healthcheck
 import pandas
+import sqlalchemy
 
 
 @task
