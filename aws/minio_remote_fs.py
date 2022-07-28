@@ -1,7 +1,7 @@
 from prefect.filesystems import RemoteFileSystem
 from prefect.packaging import FilePackager
 from prefect.deployments import Deployment
-from flows.healthcheck import run_healthcheck
+from flows.healthcheck import healthcheck
 
 
 minio_file_packager = FilePackager(
@@ -15,7 +15,7 @@ minio_file_packager = FilePackager(
     )
 )
 Deployment(
-    flow=run_healthcheck,
+    flow=healthcheck,
     name="minio_file_package_with_remote_s3fs",
     packager=minio_file_packager
 )

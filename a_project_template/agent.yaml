@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent
+  namespace: dev
+spec:
+  selector:
+    matchLabels:
+      app: agent
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: agent
+    spec:
+      containers:
+        - name: agent
+          image: prefecthq/prefect:2.0b16-python3.9
+          command: ["prefect", "agent", "start", "--tag", "k8s"]
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: PREFECT_API_URL
+              value: https://api.prefect.cloud/api/accounts/c5276cbb-62a2-4501-b64a-74d3d900d781/workspaces/aaeffa0e-13fa-460e-a1f9-79b53c05ab36
+            - name: PREFECT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: prefect-secrets
+                  key: api-key
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: agent
+  namespace: dev
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log", "pods/status"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: [ "get", "list", "watch", "create", "update", "patch", "delete" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: agent
+  namespace: dev
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: dev
+roleRef:
+  kind: Role
+  name: agent
+  apiGroup: rbac.authorization.k8s.io

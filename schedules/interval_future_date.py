@@ -2,11 +2,11 @@ from prefect.orion.schemas.schedules import IntervalSchedule
 from prefect.deployments import Deployment
 from datetime import timedelta
 import pendulum
-from flows.healthcheck import run_healthcheck
+from flows.healthcheck import healthcheck
 
 Deployment(
     name="daily-interval-deployment",
-    flow=run_healthcheck,
+    flow=healthcheck,
     tags=["interval", "test", "daily"],
     schedule=IntervalSchedule(
         interval=timedelta(days=1),

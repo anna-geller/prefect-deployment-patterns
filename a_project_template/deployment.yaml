@@ -1,0 +1,64 @@
+###
+### A complete description of a Prefect Deployment for flow 'hello'
+###
+name: cloudk8s
+description: null
+tags:
+- k8s
+schedule: null
+parameters: {}
+infrastructure:
+  type: kubernetes-job
+  env: {}
+  labels: {}
+  name: null
+  command:
+  - python
+  - -m
+  - prefect.engine
+  image: prefecthq/prefect:2.0b16-python3.9
+  namespace: dev
+  service_account_name: null
+  image_pull_policy: null
+  cluster_config: null
+  job:
+    apiVersion: batch/v1
+    kind: Job
+    metadata:
+      labels: {}
+    spec:
+      template:
+        spec:
+          parallelism: 1
+          completions: 1
+          restartPolicy: Never
+          containers:
+          - name: prefect-job
+            env: []
+  customizations: []
+  job_watch_timeout_seconds: 5
+  pod_watch_timeout_seconds: 60
+  stream_output: true
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: hello
+manifest_path: hello-manifest.json
+storage:
+  bucket_path: prefect-orion/cloud2
+  aws_access_key_id: '**********'
+  aws_secret_access_key: '**********'
+  _is_anonymous: true
+  _block_document_name: anonymous-b39c4d3d-2560-4f0b-8a16-6ac360aff0dd
+  _block_document_id: 1528373a-b9c0-480f-95e6-9e2c83da054e
+  _block_type_slug: s3
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    user:
+      title: user
+      default: Marvin
+      type: string
+  required: null
+  definitions: null

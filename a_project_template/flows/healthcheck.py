@@ -4,12 +4,6 @@ from prefect import get_run_logger
 
 
 @task
-def say_hi():
-    logger = get_run_logger()
-    logger.info("Hello from the Health Check Flow! 👋")
-
-
-@task
 def log_platform_info():
     import platform
     import sys
@@ -24,11 +18,10 @@ def log_platform_info():
     logger.info("Prefect API Version = %s", ORION_API_VERSION)
 
 
-@flow(name="healthcheck")
-def run_healthcheck():
-    hi = say_hi()
-    log_platform_info(wait_for=[hi])
+@flow
+def healthcheck():
+    log_platform_info()
 
 
 if __name__ == "__main__":
-    run_healthcheck()
+    healthcheck()
