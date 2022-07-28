@@ -4,7 +4,7 @@
 name: docker-simple
 description: null
 tags:
-- dev
+  - dev
 schedule: null
 parameters: {}
 infrastructure:
@@ -13,9 +13,9 @@ infrastructure:
   labels: {}
   name: null
   command:
-  - python
-  - -m
-  - prefect.engine
+    - python
+    - -m
+    - prefect.engine
   image: prefecthq/prefect:2.0.0-python3.9
   image_pull_policy: null
   networks: []
