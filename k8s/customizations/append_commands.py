@@ -2,6 +2,7 @@ from prefect.infrastructure import KubernetesJob
 
 k8s_job = KubernetesJob(
     command=["echo", "hello"],
+    namespace="dev",
     customizations=[
         {
             "op": "add",
@@ -20,3 +21,4 @@ k8s_job = KubernetesJob(
         },
     ],
 )
+k8s_job.save("append-commands")
