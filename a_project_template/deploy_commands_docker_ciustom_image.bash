@@ -9,7 +9,7 @@ docker image push annaprefect/a_project_template:latest
 # this creates a block with name "docker-custom-image"
 python create_docker_container_block.py
 
-prefect deployment build flows/hello.py:hello --name docker-custom --tag dev -sb s3/dev -ib docker-container/docker-custom-image
+prefect deployment build flows/hello.py:hello --name docker-custom -q dev -sb s3/dev -ib docker-container/docker-custom-image
 prefect deployment apply deployment.yaml
 prefect deployment run hello/docker-custom
-prefect agent start --tag dev
+prefect agent start -q dev
