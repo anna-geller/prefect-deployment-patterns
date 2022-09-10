@@ -1,2 +1,6 @@
-# prefect-deployment-patterns
-Code examples showing flow deployment to various types of infrastructure
+# DataflowOps Best Practices & Examples
+Code examples showing:
+- how to use Prefect
+- flow deployments to various types of infrastructure
+
+![](docs/rocket_live_data_stack.jpeg)

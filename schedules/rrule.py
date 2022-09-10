@@ -16,6 +16,7 @@ r_rule = rrule(
     byweekday=(MO, TU, WE, TH, FR),
     count=8,
 )
+schedule=RRuleSchedule.from_rrule(r_rule)
 
 Deployment(
     name="rrule-schedule-deployment",

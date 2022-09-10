@@ -1,28 +1,8 @@
 """
 brew install postgresql
 pip install psycopg2 pandas
-
-def get_db_connection_string() -> str:
-    user = "postgres"
-    pwd = "postgres"
-    return f"postgresql://{user}:{pwd}@localhost:5432/postgres"
-
-def get_df_from_sql_query(table_or_query: str) -> pd.DataFrame:
-    db = read_postgres_block()
-    engine = create_engine(db)
-    return pd.read_sql(table_or_query, engine)
-
-@task
-def load_df_to_db(
-    df: pd.DataFrame, table_name: str, schema: str = "dbt_dwh_models"
-) -> None:
-    conn_string = read_postgres_block()
-    db_engine = create_engine(conn_string)
-    conn = db_engine.connect()
-    conn.execute("CREATE SCHEMA IF NOT EXISTS dbt_dwh_models;")
-    conn.execute(f"DROP TABLE IF EXISTS {schema}.{table_name} CASCADE;")
-    df.to_sql(table_name, schema=schema, con=db_engine, index=False)
-    conn.close()
+python blocks/custom/custom_postgres_block.py
+Then, run this flow
 """
 from blocks.custom.custom_postgres_block import read_postgres_block
 import pandas as pd
@@ -61,7 +41,7 @@ def extract_and_load():
         df = extract(dataset)
         load_df_to_db(conn, df, dataset)
         logger.info("dataset %s loaded", dataset)
-    conn.close()  # todo build context manager
+    conn.close()
 
 
 if __name__ == "__main__":

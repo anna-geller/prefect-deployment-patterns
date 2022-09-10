@@ -27,9 +27,13 @@ class PostgreSQL(Block):
 
 def create_postgres_block():
     postgres_block = PostgreSQL(user_name="postgres", password="postgres")
-    postgres_block.save("postgres_db")
+    postgres_block.save("dev")
 
 
 def read_postgres_block():
-    postgres_block = PostgreSQL.load("postgres_db")
+    postgres_block = PostgreSQL.load("dev")
     return postgres_block.get_connection_string()
+
+
+if __name__ == "__main__":
+    create_postgres_block()
