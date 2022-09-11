@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: prod
+  labels:
+    purpose: prefect
+spec:
+  template:
+    spec:
+      completions: 1
+      containers: # the first container is required
+        - env: []
+          name: prefect-job
+          image: prefecthq/prefect:2-python3.9
+          imagePullPolicy: "IfNotPresent"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+#              nvidia.com/gpu: "1"
+      parallelism: 1
+      restartPolicy: Never
