@@ -39,7 +39,7 @@ Code examples showing:
 
 Reach out via [Discourse](https://discourse.prefect.io/) or [Slack](https://prefect.io/slack)
 
-![](docs/rocket_live_data_stack_50.jpeg)
+![](img.jpeg)
 
 
 
