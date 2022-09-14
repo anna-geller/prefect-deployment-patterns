@@ -28,6 +28,11 @@ Code examples showing:
 
 [![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=anna-geller&repo=prefect-docker-deployment)](https://github.com/anna-geller/prefect-docker-deployment)
 
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=rpeden&repo=prefect-docker-compose)](https://github.com/rpeden/prefect-docker-compose)
+
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=khuyentran1401&repo=prefect-mlops-recipes)](https://github.com/khuyentran1401/prefect-mlops-recipes)
+
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=khuyentran1401&repo=prefect-course)](https://github.com/khuyentran1401/prefect-course)
 
 ## Useful Discourse topics
 
