@@ -24,3 +24,4 @@ k8s_job = KubernetesJob(
         },
     ],
 )
+k8s_job.save("prod")
