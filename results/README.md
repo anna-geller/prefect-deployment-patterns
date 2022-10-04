@@ -12,17 +12,17 @@ No. Prefect has a first-class support for passing data between tasks and even be
 
 - they can be large and slow to send to and from the API
 - they can contain private information or data
-- they need to be stored somewhere (DB, S3, etc.) and Prefect has a hybrid model for privacy & security
+- they need to be stored somewhere (DB, S3, etc.) - thanks to the hybrid execution model respecting your privacy & security, Prefect doesn't store your code or data within the backend database; only metadata that references the Result object is persisted
 
 ## If Prefect doesn't store results, where are those persisted?
 
-In your infrastructure - Prefect only stores a _reference_ to the result including:
+Within your infrastructure - Prefect only stores a _reference_ to the result including:
 - the storage block used to persist results (e.g. `s3/prod`)
 - location within that remote storage (e.g. S3 object path `s3://bucket/file.pickle`)
 
 ## When Does Prefect store results directly in the DB?
 
-With booleans (True, False) and nulls (None). Why? Because it reduces the overhead required to persist such simple information. There is a special result type called `ResultLiteral` for such values. Similarly, we said that Prefect stores a reference to the results - there is a special result type for that information, too called `ResultReference`. More on those special result types in the final section.
+With booleans (True, False) and nulls (None). Why? Because it reduces the overhead required to persist such simple information. There is a special result type called `ResultLiteral` for such values. Similarly, there is a special result type called `ResultReference` used by Prefect to store result metadata in the Prefect backend database. More on those special result types in the final section.
 
 
 ### Can I disable this? 👆
@@ -39,10 +39,15 @@ Yes, by setting ``persist_result`` to False.
 
 ## What do you need to configure?
 
-1. Storage block
-2. Serializer
+1. Storage block - `result_storage`
+2. Serializer - `result_serializer`
+3. Boolean flag - `persist_result`
 
-> 💡 Prefect sets defaults for these. You only need to customize those to configure e.g. a specific remote storage (S3, GCS, ...). 
+> 💡 Note that all of these arguments are optional. Prefect sets sensible defaults inferred from the context of how you interact with Prefect (e.g. retries, or caching). 
+
+## When do I need to configure results? 
+
+You only need to customize the above-mentioned result components to configure a specific type of storage (S3, GCS, ...), or serializer, or to disable persistence for specific tasks or flows. 
 
 ## What can be configured on the `@task` and `@flow` decorators?
 
@@ -76,7 +81,7 @@ Results (i.e. return values) of such task or flow will NEVER be persisted even i
 > 📓 **TLDR:** Toggling persistence manually will always override any default or inferred behavior.
 
 ---
-# Result storage
+# Result storage - `result_storage`
 
 ## What is `result_storage` responsible for?
 For reading and writing serialized data to an external location using one of the supported file system blocks.
@@ -183,7 +188,8 @@ Given that `my_flow` has retries, Prefect will leverage default Result persisten
 
 
 --- 
-# Result serializers
+# Result serializers - `result_serializer`
+
 ## What is `result_serializer` responsible for?
 
 For converting your Python object to and from bytes. This is necessary to store the object outside of the execution environment and retrieve it later.
@@ -331,6 +337,4 @@ The `get()` method on `ResultReference`:
 returns the original object. 
 
 It will cache the resolved object to reduce the overhead of subsequent calls.
-
-
 
