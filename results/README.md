@@ -42,7 +42,7 @@ Yes, by setting ``persist_result`` to False.
 1. Storage block
 2. Serializer
 
-> 💡 Note that Prefect sets defaults for these. You only need to customize those to configure e.g. a specific remote storage (S3, GCS, ...). 
+> 💡 Prefect sets defaults for these. You only need to customize those to configure e.g. a specific remote storage (S3, GCS, ...). 
 
 ## What can be configured on the `@task` and `@flow` decorators?
 
@@ -73,9 +73,10 @@ Results (i.e. return values) of such task or flow will be persisted even if ther
 ### What happens when you set `persist_result=False`?
 Results (i.e. return values) of such task or flow will NEVER be persisted even if there is a feature (such as `retries` or `caching`) that could potentially require those. In such scenario, an error will be raised.
 
-> 📓 TL;DR Toggling persistence manually will always override any default or inferred behavior.
+> 📓 **TLDR:** Toggling persistence manually will always override any default or inferred behavior.
 
 ---
+# Result storage
 
 ## What is `result_storage` responsible for?
 For reading and writing serialized data to an external location using one of the supported file system blocks.
@@ -112,7 +113,8 @@ def my_flow():
     my_task()  
 ```
 
-## Examples in form of a quiz 🤓
+---
+# `result_storage` examples in form of a quiz 
 
 Q1: Where will Prefect store results of `my_task` and when?
 
@@ -181,6 +183,7 @@ Given that `my_flow` has retries, Prefect will leverage default Result persisten
 
 
 --- 
+# Result serializers
 ## What is `result_serializer` responsible for?
 
 For converting your Python object to and from bytes. This is necessary to store the object outside of the execution environment and retrieve it later.
@@ -290,7 +293,7 @@ Because, again, it's inferred from the **context**. **Tasks** will use the resul
 If there is **no context** to load the serializer from, the serializer defined by `PREFECT_RESULTS_DEFAULT_SERIALIZER` will be used. This setting defaults to Prefect's pickle serializer.
 
 ---
-# Extra: how does Prefect stores the reference to results under the hood?
+# Extra: how does Prefect store the reference to results under the hood?
 
 Circling back to the question from the beginning regarding special result types that Prefect uses to hold a reference to each object, there are two such result types:
 
