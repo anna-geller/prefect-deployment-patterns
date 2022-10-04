@@ -1,4 +1,4 @@
-# General
+# Results Q&A
 
 ## What are Results broadly speaking?
 Return values of a task or flow. 
