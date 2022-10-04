@@ -1,6 +1,7 @@
 from prefect import task, flow
 from prefect import get_run_logger
 from typing import Any
+import time
 
 
 @task
@@ -14,6 +15,7 @@ def say_hi(user_name: str, question: str, answer: Any) -> None:
 def parametrized(
     user: str = "Marvin", question: str = "Ultimate", answer: Any = 42
 ) -> None:
+    time.sleep(10)
     say_hi(user, question, answer)
 
 

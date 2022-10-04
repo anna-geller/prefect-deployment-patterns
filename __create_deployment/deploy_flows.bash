@@ -19,7 +19,10 @@ prefect deployment build -n prod -q prod -ib process/prod -a flows/healthcheck.p
 prefect deployment build -n prod -q prod -ib process/prod -a flows/parametrized.py:parametrized --override env.PREFECT_LOGGING_LEVEL=DEBUG
 prefect deployment build -n prod -q prod -ib process/prod -a flows/hello.py:hello --override env.PREFECT_LOGGING_LEVEL=DEBUG
 
-# S3 ---------------------------------------------------------------
+# Using a flow from a nested module ---------------------------------------------------------------
+prefect deployment build -n prod -q prod -a flows/some/nested/module.py:import_test
+
+# S3 ---------------------------------------------------------------------------------------------
 
 # upload flow code to S3 storage block + deploy flow as Local Process infra block
 python blocks/s3.py
@@ -123,3 +126,10 @@ prefect deployment build -n prod -q prod -a flows/hello.py:hello --rrule '{"rrul
 prefect deployment build -n prod -q prod -a -ib ecs-task/prod -sb s3/prod flows/healthcheck.py:healthcheck
 prefect deployment build -n prod -q prod -a -ib ecs-task/prod -sb s3/prod flows/parametrized.py:parametrized
 prefect deployment build -n prod -q prod -a -ib ecs-task/prod -sb s3/prod flows/hello.py:hello
+
+# ---------------------------------------------------------------
+# Run parametrized flows from the CLI
+prefect deployment build -n prod -q prod -a flows/parametrized.py:parametrized
+prefect deployment run parametrized/prod --param user=Anna --param answer=100
+echo '{"user": "World", "answer": 2023}' > params.json
+prefect deployment run parametrized/prod --param-file params.json
