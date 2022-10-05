@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from prefect.coordination import run_deployment, schedule_deployment
+from prefect import run_deployment, schedule_deployment
 
 # run parametrized flow from deployment and wait for its completion before starting the next task
 run_deployment(
