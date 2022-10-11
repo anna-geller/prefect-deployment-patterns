@@ -6,7 +6,6 @@ from prefect.filesystems import S3
 import shutil
 import os
 import json
-import time
 from prefect.results import PersistedResultBlob
 from prefect.serializers import PickleSerializer, JSONSerializer
 
@@ -74,11 +73,11 @@ def check(check: str, nr_files: int = 0, serializer: str = "pickle"):
 def check_s3(check: str, nr_files: int = 0):
     assert len(get_s3_result_files()) == nr_files
     print(f"Check {check} passed ✅")
-    clear_result_files()
+    clear_s3_result_files()
 
 
 def qa_local_results():
-    # set_path()
+    set_path()
     clear_result_files()
 
     from flow_dont_persist_result import flow_dont_persist_result
@@ -199,25 +198,23 @@ def qa_s3_results():
 
     flow_persist_result_s3()
     check_s3("flow_persist_result_s3", 1)
-    time.sleep(1)  # S3 eventual consistency when deleting files
 
     from flow_persist_result_s3_json import flow_persist_result_s3_json
 
     flow_persist_result_s3_json()
     check_s3("flow_persist_result_s3_json", 1)
-    time.sleep(1)  # S3 eventual consistency when deleting files
 
     from task_persist_result_s3_false import flow_with_task_persist_result_s3_false
 
     flow_with_task_persist_result_s3_false()
     check_s3("flow_with_task_persist_result_s3_false", 0)
 
-    from task_persist_result_s3_true import task_persist_result_s3_true
+    from task_persist_result_s3_true import flow_with_task_persist_result_s3_true
 
-    task_persist_result_s3_true()
+    flow_with_task_persist_result_s3_true()
     check_s3("task_persist_result_s3_true", 1)
 
 
 if __name__ == "__main__":
     qa_local_results()
-    # qa_s3_results()
+    qa_s3_results()
