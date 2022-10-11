@@ -15,7 +15,9 @@ def say_hi(user_name: str, question: str, answer: Any) -> None:
 def parametrized(
     user: str = "Marvin", question: str = "Ultimate", answer: Any = 42
 ) -> None:
-    time.sleep(10)
+    logger = get_run_logger()
+    logger.info("Sleeping for a bit... 😴")
+    time.sleep(30)
     say_hi(user, question, answer)
 
 
