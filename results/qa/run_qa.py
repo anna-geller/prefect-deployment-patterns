@@ -116,10 +116,10 @@ def qa_local_results():
     flow_retries_persist_result_false()
     check("flow_retries_persist_result_false", 0)
 
-    from flow_retries import flow_retries
+    from flow_retries_for_subflow import flow_retries
 
     flow_retries()
-    check("flow_retries", 0)  # this doesn't work, should give 1 file TODO ❓
+    check("flow_retries_with_subflow", 1)  # result is persisted as it's needed for the subflow
 
     from flow_persist_result_None import flow_persist_result_None
 
@@ -171,8 +171,8 @@ def qa_local_results():
 
     from task_infers_results_from_flow import flow_with_task_that_infers_results_from_flow
     flow_with_task_that_infers_results_from_flow()
-    # both task and flow persist results as pickle files = 2 files
-    check("flow_with_task_that_infers_results_from_flow", 1)  # TODO should be 2 files ❓
+    # flow persist results but the task doesn't need persistence because the task run result doesn’t exist until all retries finish
+    check("flow_with_task_that_infers_results_from_flow", 1)
 
     from task_infers_NOT_results_from_flow import flow_with_task_that_does_not_infer_results_from_flow
     flow_with_task_that_does_not_infer_results_from_flow()

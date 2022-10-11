@@ -15,8 +15,7 @@
 ## ``persist_result=None`` = inferred from the context
 
 - local, ``persist_result=None`` ✅
-- local, ``persist_result=None``, but using retries ❓
-- local, ``persist_result=None``, but using caching ❓
+- local, ``persist_result=None``, but using retries for a subflow ✅
 
 # Task-level results persistence inferred from the flow
 
