@@ -5,7 +5,7 @@ k8s_job = KubernetesJob(
     customizations=[
         {
             "op": "add",
-            "path": "/spec/template/spec/resources",
+            "path": "/spec/template/spec/containers/0/resources",
             "value": {"limits": {"memory": "8Gi", "cpu": "4000m"}},
         }
     ],
